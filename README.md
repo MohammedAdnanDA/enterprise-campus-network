@@ -158,3 +158,9 @@ The Cisco Packet Tracer `.pkt` file is included in the `packet-tracer-file/` fol
 * Cisco Packet Tracer
 * Cisco IOS CLI
 * GitHub for project documentation and version control
+
+README.md
+packet-tracer-file/
+screenshots/
+configs/
+verification/
