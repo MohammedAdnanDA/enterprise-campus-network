@@ -1,0 +1,222 @@
+ASW2#show running-config
+Building configuration...
+
+Current configuration : 4415 bytes
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname ASW2
+!
+enable secret 5 $1$mERr$CJwqOh3WnG/b.aT8NV1J0.
+!
+!
+!
+ip ssh version 2
+ip domain-name enterprise.local
+!
+username admin secret 5 $1$mERr$kku/hiJPh.4Yp8Xor/4kz1
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+ description SECURED-ENDPOINT-PORT
+ switchport access vlan 30
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky 
+ switchport port-security violation restrict 
+ switchport port-security mac-address sticky 0001.C7BA.18C9
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/2
+ description SECURED-ENDPOINT-PORT
+ switchport access vlan 40
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky 
+ switchport port-security violation restrict 
+ switchport port-security mac-address sticky 0005.5E9A.078E
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/3
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/4
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/5
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/6
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/7
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/8
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/9
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/10
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/11
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/12
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/13
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/14
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/15
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/16
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/17
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/18
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/19
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/20
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/21
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/22
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/23
+ description UPLINK-TO-DSW
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 30,40,99,999
+ switchport mode trunk
+!
+interface FastEthernet0/24
+ description UPLINK-TO-DSW
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 30,40,99,999
+ switchport mode trunk
+!
+interface GigabitEthernet0/1
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet0/2
+ description UNUSED-SHUTDOWN
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan99
+ description MANAGEMENT_SVI
+ ip address 192.168.99.22 255.255.255.0
+!
+ip default-gateway 192.168.99.1
+!
+!
+!
+!
+access-list 10 permit 192.168.10.0 0.0.0.255
+access-list 10 deny any
+line con 0
+!
+line vty 0 4
+ access-class 10 in
+ login local
+ transport input ssh
+line vty 5 15
+ access-class 10 in
+ login local
+ transport input ssh
+!
+!
+!
+!
+end

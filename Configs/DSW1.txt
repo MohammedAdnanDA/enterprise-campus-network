@@ -1,0 +1,260 @@
+DSW1#show running-config
+Building configuration...
+
+Current configuration : 5233 bytes
+!
+version 12.2(37)SE1
+service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname DSW1
+!
+!
+no profinet
+enable secret 5 $1$mERr$CJwqOh3WnG/b.aT8NV1J0.
+!
+!
+ip dhcp excluded-address 192.168.10.1 192.168.10.20
+ip dhcp excluded-address 192.168.20.1 192.168.20.20
+ip dhcp excluded-address 192.168.30.1 192.168.30.20
+ip dhcp excluded-address 192.168.40.1 192.168.40.20
+!
+ip dhcp pool VLAN10-IT
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+ dns-server 8.8.8.8
+ip dhcp pool VLAN20-HR
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1
+ dns-server 8.8.8.8
+ip dhcp pool VLAN30-SALES
+ network 192.168.30.0 255.255.255.0
+ default-router 192.168.30.1
+ dns-server 8.8.8.8
+ip dhcp pool VLAN40-GUEST
+ network 192.168.40.0 255.255.255.0
+ default-router 192.168.40.1
+ dns-server 8.8.8.8
+!
+!
+ip routing
+!
+!
+!
+!
+username admin secret 5 $1$mERr$kku/hiJPh.4Yp8Xor/4kz1
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip domain-name enterprise.local
+!
+!
+spanning-tree mode pvst
+spanning-tree vlan 10,20,50,99,999 priority 24576
+spanning-tree vlan 30,40 priority 28672
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ description ETHERNETCHANNEL-TO-DSW2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,99,999
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface FastEthernet0/1
+ description ETHERNETCHANNEL-TO-DSW2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,99,999
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface FastEthernet0/2
+ description ETHERNETCHANNEL-TO-DSW2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,99,999
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+ description UPLINK-TO-ASW1
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,50,99,999
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface FastEthernet0/12
+ description UPLINK-TO-ASW2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 30,40,99,999
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+ shutdown
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+ description ROUTED-TO-EDGE-R1
+ no switchport
+ ip address 10.0.0.6 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ mac-address 00e0.f7c7.2601
+ ip address 192.168.10.2 255.255.255.0
+ standby 10 ip 192.168.10.1
+ standby 10 priority 105
+ standby 10 preempt
+ standby 10 track GigabitEthernet0/1
+!
+interface Vlan20
+ mac-address 00e0.f7c7.2602
+ ip address 192.168.20.2 255.255.255.0
+ standby 20 ip 192.168.20.1
+ standby 20 priority 105
+ standby 20 preempt
+ standby 20 track GigabitEthernet0/1
+!
+interface Vlan30
+ mac-address 00e0.f7c7.2603
+ ip address 192.168.30.2 255.255.255.0
+ standby 30 ip 192.168.30.1
+!
+interface Vlan40
+ mac-address 00e0.f7c7.2604
+ ip address 192.168.40.2 255.255.255.0
+ standby 40 ip 192.168.40.1
+!
+interface Vlan50
+ mac-address 00e0.f7c7.2605
+ ip address 192.168.50.2 255.255.255.0
+ standby 50 ip 192.168.50.1
+ standby 50 priority 105
+ standby 50 preempt
+ standby 50 track GigabitEthernet0/1
+!
+interface Vlan99
+ mac-address 00e0.f7c7.2606
+ ip address 192.168.99.2 255.255.255.0
+ standby 99 ip 192.168.99.1
+ standby 99 priority 105
+ standby 99 preempt
+ standby 99 track GigabitEthernet0/1
+!
+router ospf 1
+ router-id 1.1.1.1
+ log-adjacency-changes
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ network 10.0.0.4 0.0.0.3 area 0
+ network 192.168.10.0 0.0.0.255 area 0
+ network 192.168.20.0 0.0.0.255 area 0
+ network 192.168.30.0 0.0.0.255 area 0
+ network 192.168.40.0 0.0.0.255 area 0
+ network 192.168.50.0 0.0.0.255 area 0
+ network 192.168.99.0 0.0.0.255 area 0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list extended GUEST_RESTRICT
+ deny ip 192.168.40.0 0.0.0.255 192.168.10.0 0.0.0.255
+ deny ip 192.168.40.0 0.0.0.255 192.168.20.0 0.0.0.255
+ deny ip 192.168.40.0 0.0.0.255 192.168.30.0 0.0.0.255
+ deny ip 192.168.40.0 0.0.0.255 192.168.50.0 0.0.0.255
+ deny ip 192.168.40.0 0.0.0.255 192.168.60.0 0.0.0.255
+ deny ip 192.168.40.0 0.0.0.255 192.168.99.0 0.0.0.255
+ permit ip 192.168.40.0 0.0.0.255 any
+access-list 10 permit 192.168.10.0 0.0.0.255
+access-list 10 deny any
+!
+!
+!
+!
+!
+snmp-server community CampusRO RO
+!
+logging trap debugging
+logging 192.168.50.10
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ access-class 10 in
+ login local
+ transport input ssh
+line vty 5 15
+ access-class 10 in
+ login local
+ transport input ssh
+!
+!
+!
+ntp server 192.168.50.10
+!
+end
+
+
+DSW1#
